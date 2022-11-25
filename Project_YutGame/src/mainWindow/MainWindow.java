@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,10 +18,14 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import java.awt.TextField;
 
+import java.sql.*;
+import java.util.*;
 
 public class MainWindow extends JFrame {
 	private JPanel contentPane;
-
+	
+	Vector<String> gamelistdata = new Vector<>();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -38,12 +41,13 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("STRAGETY YUT NORI");
 		setBounds(100, 100, 900, 540);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,6 +90,10 @@ public class MainWindow extends JFrame {
 						.addComponent(gamePanel, GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)))
 		);
 		
+		/**
+		 * account panel
+		 */
+		
 		JButton btnQuit = new JButton("Quit");
 		accountPanel.add(btnQuit);
 		btnQuit.addActionListener(new ActionListener() {
@@ -108,6 +116,9 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
+		/**
+		 * select panel
+		 */
 
 		JButton btnCreate = new JButton("Create Room");
 		selectPanel.add(btnCreate);
@@ -123,11 +134,17 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
+		/**
+		 * game panel
+		 */
+		gameListShow();
+		JList<String> gameList = new JList<String>(gamelistdata);
+		gamePanel.add(gameList);
 
-		JList list = new JList();
-		gamePanel.add(list);
-
-
+		/**
+		 * chat panel
+		 */
+		
 		JTextArea chatArea = new JTextArea();
 		chatPanel.add(chatArea, BorderLayout.CENTER);
 		chatArea.setLineWrap(true);
@@ -148,5 +165,38 @@ public class MainWindow extends JFrame {
 		
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	/**
+	 * DB function
+	 */
+	public void gameListShow() {
+		gamelistdata.removeAllElements();
+		Connection conn;
+		Statement stmt = null;
+		try {
+			String url = "jdbc:mysql://localhost:3306/Opensource";
+			String user = "root";
+			String pw = "2017018023";
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			conn = DriverManager.getConnection(url, user, pw);
+			
+			stmt = conn.createStatement();
+			ResultSet srs = stmt.executeQuery("select * from user_game");
+			
+			while (srs.next()) {
+				gamelistdata.add(srs.getInt("RoomNum")
+						+ "\t|\t" + srs.getString("HostId")
+						+ "\t|\t" + srs.getInt("Totalpop")
+						+ "\t|\t" + srs.getBoolean("GameStatus"));
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBC Driver load error");
+		} catch (SQLException e) {
+			System.out.println("SQL error");
+		}
+	}
 
+	
 }
