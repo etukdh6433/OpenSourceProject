@@ -1,4 +1,4 @@
-package mainWindow;
+package function;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -18,13 +18,12 @@ import javax.swing.JList;
 import javax.swing.JTextArea;
 import java.awt.TextField;
 
-import java.sql.*;
 import java.util.*;
+import db.Database;
+
 
 public class MainWindow extends JFrame {
 	private JPanel contentPane;
-	
-	Vector<String> gamelistdata = new Vector<>();
 	
 	/**
 	 * Launch the application.
@@ -137,10 +136,13 @@ public class MainWindow extends JFrame {
 		/**
 		 * game panel
 		 */
-		gameListShow();
-		JList<String> gameList = new JList<String>(gamelistdata);
+		db.Database data = new db.Database();
+		JList<String> gameList = new JList<String>(data.gameShow());
 		gamePanel.add(gameList);
 
+		JScrollPane gamescroll = new JScrollPane(gameList);
+		gamePanel.add(gamescroll);
+		
 		/**
 		 * chat panel
 		 */
@@ -149,8 +151,8 @@ public class MainWindow extends JFrame {
 		chatPanel.add(chatArea, BorderLayout.CENTER);
 		chatArea.setLineWrap(true);
 		
-		JScrollPane scroll = new JScrollPane(chatArea);
-		chatPanel.add(scroll);
+		JScrollPane chatscroll = new JScrollPane(chatArea);
+		chatPanel.add(chatscroll);
 		
 		JTextField chatField = new JTextField();
 		chatPanel.add(chatField, BorderLayout.SOUTH);
@@ -165,38 +167,4 @@ public class MainWindow extends JFrame {
 		
 		contentPane.setLayout(gl_contentPane);
 	}
-	
-	/**
-	 * DB function
-	 */
-	public void gameListShow() {
-		gamelistdata.removeAllElements();
-		Connection conn;
-		Statement stmt = null;
-		try {
-			String url = "jdbc:mysql://localhost:3306/Opensource";
-			String user = "root";
-			String pw = "2017018023";
-			
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			conn = DriverManager.getConnection(url, user, pw);
-			
-			stmt = conn.createStatement();
-			ResultSet srs = stmt.executeQuery("select * from user_game");
-			
-			while (srs.next()) {
-				gamelistdata.add(srs.getInt("RoomNum")
-						+ "\t|\t" + srs.getString("HostId")
-						+ "\t|\t" + srs.getInt("Totalpop")
-						+ "\t|\t" + srs.getBoolean("GameStatus"));
-			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("JDBC Driver load error");
-		} catch (SQLException e) {
-			System.out.println("SQL error");
-		}
-	}
-
-	
 }
