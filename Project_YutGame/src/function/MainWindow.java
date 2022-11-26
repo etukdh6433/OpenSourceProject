@@ -27,6 +27,7 @@ import function.LoginWindow;
 public class MainWindow extends JFrame {
 	LoginWindow logW;
 	SignupWindow signW;
+	RoomWindow roomW;
 	
 	private JPanel contentPane;
 
@@ -164,7 +165,13 @@ public class MainWindow extends JFrame {
 		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		gameList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				System.out.println("yes");
+				if (roomW == null) {
+					roomW = new RoomWindow();
+				}
+				else {
+					roomW.dispose();
+					roomW = new RoomWindow();
+				}
 			}
 		});
 		
