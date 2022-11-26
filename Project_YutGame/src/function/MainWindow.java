@@ -3,6 +3,7 @@ package function;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -21,10 +22,14 @@ import java.awt.TextField;
 import java.util.*;
 import db.Database;
 
+import function.LoginWindow;
 
 public class MainWindow extends JFrame {
-	private JPanel contentPane;
+	LoginWindow logW;
+	SignupWindow signW;
 	
+	private JPanel contentPane;
+
 	/**
 	 * Launch the application.
 	 */
@@ -89,6 +94,7 @@ public class MainWindow extends JFrame {
 						.addComponent(gamePanel, GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)))
 		);
 		
+		
 		/**
 		 * account panel
 		 */
@@ -105,6 +111,13 @@ public class MainWindow extends JFrame {
 		accountPanel.add(btnSignUp);
 		btnSignUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(signW == null) {
+					signW = new SignupWindow();
+				}
+				else {
+					signW.dispose();
+					signW = new SignupWindow();
+				}
 			}
 		});
 		
@@ -112,8 +125,16 @@ public class MainWindow extends JFrame {
 		accountPanel.add(btnLogIn);
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(logW == null) {
+					logW = new LoginWindow();
+				}
+				else {
+					logW.dispose();
+					logW = new LoginWindow();
+				}
 			}
 		});
+		
 		
 		/**
 		 * select panel
@@ -133,15 +154,23 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
+		
 		/**
 		 * game panel
 		 */
 		db.Database data = new db.Database();
 		JList<String> gameList = new JList<String>(data.gameShow());
 		gamePanel.add(gameList);
-
+		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		gameList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				System.out.println("yes");
+			}
+		});
+		
 		JScrollPane gamescroll = new JScrollPane(gameList);
 		gamePanel.add(gamescroll);
+		
 		
 		/**
 		 * chat panel
@@ -167,4 +196,5 @@ public class MainWindow extends JFrame {
 		
 		contentPane.setLayout(gl_contentPane);
 	}
+	
 }
