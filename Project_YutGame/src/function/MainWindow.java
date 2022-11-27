@@ -29,6 +29,8 @@ public class MainWindow extends JFrame {
 	SignupWindow signW;
 	RoomWindow roomW;
 	
+	db.Database data = new db.Database();
+	
 	private JPanel contentPane;
 
 	/**
@@ -145,6 +147,7 @@ public class MainWindow extends JFrame {
 		selectPanel.add(btnCreate);
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				data.createGame();
 			}
 		});
 		
@@ -159,7 +162,7 @@ public class MainWindow extends JFrame {
 		/**
 		 * game panel
 		 */
-		db.Database data = new db.Database();
+		
 		JList<String> gameList = new JList<String>(data.gameShow());
 		gamePanel.add(gameList);
 		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
