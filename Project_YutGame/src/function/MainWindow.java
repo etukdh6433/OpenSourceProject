@@ -146,13 +146,13 @@ public class MainWindow extends JFrame {
 		selectPanel.add(btnGame);
 		btnGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				data.createGame(userId);
-				
 				if (roomW == null) {
+					data.gameOrder(userId, "create");
 					roomW = new RoomWindow();
 				}
 				else {
 					roomW.dispose();
+					data.gameOrder(userId, "create");
 					roomW = new RoomWindow();
 				}
 			}
@@ -173,17 +173,12 @@ public class MainWindow extends JFrame {
 		JList<String> gameList = new JList<String>(data.gameShow());
 		gamePanel.add(gameList);
 		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		/*gameList.addListSelectionListener(new ListSelectionListener() {
+		gameList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				if (roomW == null) {
-					roomW = new RoomWindow();
-				}
-				else {
-					roomW.dispose();
-					roomW = new RoomWindow();
-				}
+//				list 클릯 시 새로고침
+				data.gameShow();
 			}
-		});*/
+		});
 		
 		JScrollPane gamescroll = new JScrollPane(gameList);
 		gamePanel.add(gamescroll);
