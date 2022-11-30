@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.swing.*;
 
@@ -131,4 +132,38 @@ public class Database {
 		}
 	}
 	
+//	chat data 저장
+	public void chatting(String userId, String text) {
+		Connection conn;
+		Statement stmt = null;
+		PreparedStatement pstmt = null;
+		LocalDateTime now = LocalDateTime.now();
+		
+		try {
+			String url = "jdbc:mysql://localhost:3306/Opensource";
+			String user = "root";
+			String pw = "2017018023";
+			
+			Class.forName("com.mysql.jdbc.Driver");
+			
+			conn = DriverManager.getConnection(url, user, pw);
+			stmt = conn.createStatement();
+			
+//			user_game table에 새로운 data 입력
+			pstmt = conn.prepareStatement("insert into chat (Id, CreateDate, Text) values (?, ?, ?)");
+			pstmt.setString(1, userId);
+			pstmt.setString(2, now.toString());
+			pstmt.setString(3, text);
+			pstmt.executeUpdate();
+
+//			gamelistdata 최신화
+			gameShow();
+			
+		} catch (ClassNotFoundException e) {
+			System.out.println("JDBC Driver load error");
+		} catch (SQLException e) {
+			System.out.println("SQL error");
+			e.printStackTrace();
+		}
+	}
 }
