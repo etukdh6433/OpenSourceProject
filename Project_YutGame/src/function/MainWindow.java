@@ -22,15 +22,12 @@ import java.awt.TextField;
 import java.util.*;
 import db.Database;
 
-import function.LoginWindow;
-
 public class MainWindow extends JFrame {
 	LoginWindow logW;
 	SignupWindow signW;
 	RoomWindow roomW;
 	
 	db.Database data = new db.Database();
-	
 	String userId = "root";
 	
 	private JPanel contentPane;
