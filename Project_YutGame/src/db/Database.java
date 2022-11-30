@@ -46,7 +46,7 @@ public class Database {
 	}
 
 //	Create Room 버튼 클릭 시 작동
-	public void createGame (String userId) {
+	public void createGame (String userId, String order) {
 		Connection conn;
 		Statement stmt = null;
 		try {
@@ -66,17 +66,22 @@ public class Database {
 			Integer rn_num = srs.getInt("rn_last") + 1;
 			String rn = String.valueOf(rn_num);
 			
-//			game table에 새로운 게임 입력
-			PreparedStatement pstmt = conn.prepareStatement("insert into game (RoomNum, HostPlayer) values (?, ?)");
-			pstmt.setString(1, rn);
-			pstmt.setString(2, userId);
-			pstmt.executeUpdate();
+			if (order == "create") {
+//				game table에 새로운 data 입력
+				PreparedStatement pstmt = conn.prepareStatement("insert into game (RoomNum, HostPlayer) values (?, ?)");
+				pstmt.setString(1, rn);
+				pstmt.setString(2, userId);
+				pstmt.executeUpdate();
+//				user_game table에 새로운 data 입력
+				pstmt = conn.prepareStatement("insert into user_game (RoomNum, HostId, Totalpop, GameStatus) values (?, ?, 1, 0)");
+				pstmt.setString(1, rn);
+				pstmt.setString(2, userId);
+				pstmt.executeUpdate();
+			}else if (order == "delete") {
+				
+			}
 			
-			pstmt = conn.prepareStatement("insert into user_game (RoomNum, HostId, Totalpop, GameStatus) values (?, ?, 1, 0)");
-			pstmt.setString(1, rn);
-			pstmt.setString(2, userId);
-			pstmt.executeUpdate();
-			
+//			gamelistdata 최신화
 			gameShow();
 			
 		} catch (ClassNotFoundException e) {
