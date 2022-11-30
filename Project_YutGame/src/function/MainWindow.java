@@ -206,6 +206,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JTextField chat = (JTextField)e.getSource();
 				chatArea.append(">>" + chat.getText() + "\n\n");
+				data.chatting(userId, chat.getText());
 				chat.setText("");
 			}
 		});
