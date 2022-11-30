@@ -46,7 +46,7 @@ public class Database {
 	}
 
 //	Create Room 버튼 클릭 시 작동
-	public void createGame() {
+	public void createGame (String userId) {
 		Connection conn;
 		Statement stmt = null;
 		try {
@@ -60,19 +60,30 @@ public class Database {
 			stmt = conn.createStatement();
 //			RoomNum의 마지막 값을 알려주는 쿼리문
 			ResultSet srs = stmt.executeQuery("select last_value(RoomNum) over() as rn_last from game");
-
 			srs.next();
+			
 //			RoomNum 마지막 값 + 1
-			Integer rn_last = srs.getInt("rn_last") + 1;
+			Integer rn_num = srs.getInt("rn_last") + 1;
+			String rn = String.valueOf(rn_num);
 			
-			System.out.println(rn_last);
+//			game table에 새로운 게임 입력
+			PreparedStatement pstmt = conn.prepareStatement("insert into game (RoomNum, HostPlayer) values (?, ?)");
+			pstmt.setString(1, rn);
+			pstmt.setString(2, userId);
+			pstmt.executeUpdate();
 			
+			pstmt = conn.prepareStatement("insert into user_game (RoomNum, HostId, Totalpop, GameStatus) values (?, ?, 1, 0)");
+			pstmt.setString(1, rn);
+			pstmt.setString(2, userId);
+			pstmt.executeUpdate();
 			
+			gameShow();
 			
 		} catch (ClassNotFoundException e) {
 			System.out.println("JDBC Driver load error");
 		} catch (SQLException e) {
 			System.out.println("SQL error");
+			e.printStackTrace();
 		}
 	}
 
