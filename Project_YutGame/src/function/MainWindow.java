@@ -31,6 +31,8 @@ public class MainWindow extends JFrame {
 	
 	db.Database data = new db.Database();
 	
+	String userId = "root";
+	
 	private JPanel contentPane;
 
 	/**
@@ -143,31 +145,12 @@ public class MainWindow extends JFrame {
 		 * select panel
 		 */
 
-		JButton btnCreate = new JButton("Create Room");
-		selectPanel.add(btnCreate);
-		btnCreate.addActionListener(new ActionListener() {
+		JButton btnGame = new JButton("Game Start");
+		selectPanel.add(btnGame);
+		btnGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				data.createGame();
-			}
-		});
-		
-		JButton btnRandom = new JButton("Random Room");
-		selectPanel.add(btnRandom);
-		btnRandom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		
-		/**
-		 * game panel
-		 */
-		
-		JList<String> gameList = new JList<String>(data.gameShow());
-		gamePanel.add(gameList);
-		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gameList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
+				data.createGame(userId);
+				
 				if (roomW == null) {
 					roomW = new RoomWindow();
 				}
@@ -177,6 +160,33 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
+		
+//		JButton btnRandom = new JButton("Random Room");
+//		selectPanel.add(btnRandom);
+//		btnRandom.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
+		
+		
+		/**
+		 * game panel
+		 */
+		
+		JList<String> gameList = new JList<String>(data.gameShow());
+		gamePanel.add(gameList);
+		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		/*gameList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (roomW == null) {
+					roomW = new RoomWindow();
+				}
+				else {
+					roomW.dispose();
+					roomW = new RoomWindow();
+				}
+			}
+		});*/
 		
 		JScrollPane gamescroll = new JScrollPane(gameList);
 		gamePanel.add(gamescroll);
