@@ -29,11 +29,12 @@ public class RoomWindow extends JFrame {
         contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         
+//		Test : Quit 버튼 클릭 시 gamelistdata 최신화
         JButton btnQuit = new JButton("Quit");
         getContentPane().add(btnQuit, BorderLayout.CENTER);
         btnQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				data.deleteGame(userId);
+				data.gameOrder(userId, "delete");
 				dispose();
 			}
 		});

@@ -22,8 +22,14 @@ import java.awt.TextField;
 import java.util.*;
 import db.Database;
 
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.io.IOException;
+
+
 public class MainWindow extends JFrame {
 	LoginWindow logW;
+	LogoutWindow outW;
 	SignupWindow signW;
 	RoomWindow roomW;
 	
@@ -35,8 +41,9 @@ public class MainWindow extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+	public static void main(String[] args) throws IOException {
+
+        EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainWindow frame = new MainWindow();
@@ -123,7 +130,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
-		JButton btnLogIn = new JButton("Log-in");
+		JButton btnLogIn = new JButton("Log In");
 		accountPanel.add(btnLogIn);
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -133,6 +140,20 @@ public class MainWindow extends JFrame {
 				else {
 					logW.dispose();
 					logW = new LoginWindow();
+				}
+			}
+		});
+		
+		JButton btnLogOut = new JButton("Log Out");
+		accountPanel.add(btnLogOut);
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(logW == null) {
+					outW = new LogoutWindow();
+				}
+				else {
+					outW.dispose();
+					outW = new LogoutWindow();
 				}
 			}
 		});
@@ -167,21 +188,20 @@ public class MainWindow extends JFrame {
 		
 		
 		/**
-		 * game panel
+		 * User panel
 		 */
 		
-		JList<String> gameList = new JList<String>(data.gameShow());
-		gamePanel.add(gameList);
-		gameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		gameList.addListSelectionListener(new ListSelectionListener() {
+		JList<String> userList = new JList<String>(data.loginUserShow());
+		gamePanel.add(userList);
+		userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		userList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-//				list 클릯 시 새로고침
-				data.gameShow();
+				data.loginUserShow();
 			}
 		});
 		
-		JScrollPane gamescroll = new JScrollPane(gameList);
-		gamePanel.add(gamescroll);
+		JScrollPane userscroll = new JScrollPane(userList);
+		gamePanel.add(userscroll);
 		
 		
 		/**
