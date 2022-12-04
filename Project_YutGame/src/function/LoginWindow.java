@@ -15,7 +15,7 @@ public class LoginWindow extends JFrame {
 	JPanel southPanel = new JPanel();
 	
 	/* Label */
-	JLabel idL = new JLabel("Id");
+	JLabel idL = new JLabel("ID");
 	JLabel pwL = new JLabel("PW");
 	
 	/* TextField */
@@ -112,17 +112,17 @@ public class LoginWindow extends JFrame {
     			/* 로그인 버튼 이벤트 */
     			else if(b.getText().equals("Log In")) {
     				if(uid.equals("") || upass.equals("")) {
-    					JOptionPane.showMessageDialog(null, "아이디와 비밀번호 모두 입력해주세요", "Fail", JOptionPane.ERROR_MESSAGE);
-    					System.out.println("Fail > 로그인 정보 미입력");
+    					JOptionPane.showMessageDialog(null, "Please enter all information.", "Log In Fail", JOptionPane.ERROR_MESSAGE);
+    					System.out.println("Log In Fail > Not entered");
     				}
     				else if(uid != null && upass != null) {
     					if(db.Database.logincheck(uid, upass)) {	
-    						System.out.println("Success");
-    						JOptionPane.showMessageDialog(null, "Success");
+    						System.out.println("Log In Success");
+    						JOptionPane.showMessageDialog(null, "Log In Success");
     						dispose();
     					} else {
-    						System.out.println("Fail > 로그인 정보 불일치");
-    						JOptionPane.showMessageDialog(null, "Fail");
+    						System.out.println("Log In Fail > Inconsistency");
+    						JOptionPane.showMessageDialog(null, "Log In Fail");
     					}
     				}
     			}

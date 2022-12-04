@@ -22,9 +22,9 @@ public class Database {
 			
 			conn = DriverManager.getConnection(url, user, pw);
 			stmt = conn.createStatement();
+			
 //			user 테이블에 있는 모든 값을 선택
 			ResultSet srs = stmt.executeQuery("select * from user");
-			
 			while (srs.next()) {
 				if (srs.getBoolean("LoginStatus")) {
 					userlistdata.addElement(srs.getString("Id"));

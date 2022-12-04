@@ -11,7 +11,7 @@ public class FirstPage extends JFrame{
 	private JPanel panel = new JPanel();
 	private JRadioButton playerNumbtn[] = new JRadioButton[MAX_PLAYER];
 	private JRadioButton pieceNumbtn[] = new JRadioButton[MAX_PIECE];
-	private JButton start = new JButton("시작");
+	private JButton start = new JButton("Start");
 	private ButtonGroup playerNumcheck = new ButtonGroup();
 	private ButtonGroup pieceNumcheck = new ButtonGroup();
 	private PlayConfig playConfig = new PlayConfig();
@@ -42,7 +42,7 @@ public class FirstPage extends JFrame{
 //        }
 //        playerNumbtn[0].setSelected(true);
         
-        lb2 = new JLabel("말 갯수");
+        lb2 = new JLabel("Number of Token");
         panel.add(lb2);
         for(int i = 0; i < pieceNumbtn.length; i++) {
         	pieceNumbtn[i] = new JRadioButton();

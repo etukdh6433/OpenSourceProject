@@ -12,8 +12,8 @@ public class SignupWindow extends JFrame {
 
 	
 	/* Label */
-	JLabel idL = new JLabel("아이디");
-	JLabel pwL = new JLabel("비밀번호");
+	JLabel idL = new JLabel("ID");
+	JLabel pwL = new JLabel("PW");
 	
 	/* TextField */
 	JTextField id = new JTextField();
@@ -21,15 +21,15 @@ public class SignupWindow extends JFrame {
 	
 	/* Button */
 	/* Button */
-	JButton joinBtn = new JButton("가입하기");
-	JButton cancelBtn = new JButton("가입취소");
+	JButton joinBtn = new JButton("Sign Up");
+	JButton cancelBtn = new JButton("Back");
 
 
 	/**
 	 * Create the frame.
 	 */
 	public SignupWindow() {
-		setTitle("회원가입");
+		setTitle("Sign Up");
         setLocation(200, 0);
 
 		
@@ -86,25 +86,25 @@ public class SignupWindow extends JFrame {
 			}
 			
 			/* 가입취소 버튼 이벤트 */
-			if(b.getText().equals("가입취소")) {
+			if(b.getText().equals("Back")) {
 				dispose();
 			}
 			
 			/* 가입하기 버튼 이벤트 */
-			else if(b.getText().equals("가입하기")) {
+			else if(b.getText().equals("Sign Up")) {
 				if(uid.equals("") || upass.equals("")) {
-					JOptionPane.showMessageDialog(null, "모든 정보를 기입해주세요", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
-					System.out.println("회원가입 실패 > 회원정보 미입력");
+					JOptionPane.showMessageDialog(null, "Please enter all information.", "Sign Up Fail", JOptionPane.ERROR_MESSAGE);
+					System.out.println("Sign Up Fail > Not entered");
 				}
 				
 				else if(!uid.equals("") && !upass.equals("")) {
 					if(db.Database.joinCheck(uid, upass)) {
-						System.out.println("회원가입 성공");
-						JOptionPane.showMessageDialog(null, "회원가입에 성공하였습니다");
+						System.out.println("Sign Up Success");
+						JOptionPane.showMessageDialog(null, "Sign Up Success");
 						dispose();
 					} else {
-						System.out.println("회원가입 실패");
-						JOptionPane.showMessageDialog(null, "회원가입에 실패하였습니다");
+						System.out.println("Sign Up Fail");
+						JOptionPane.showMessageDialog(null, "Sign Up Fail");
 						id.setText("");
 						pw.setText("");
 					}
