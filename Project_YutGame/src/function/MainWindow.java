@@ -20,8 +20,6 @@ import javax.swing.JTextArea;
 import java.awt.TextField;
 
 import java.util.*;
-import db.Database;
-
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.IOException;
@@ -37,7 +35,7 @@ public class MainWindow extends JFrame {
 	String userId = "root";
 	
 	private JPanel contentPane;
-
+	
 	/**
 	 * Launch the application.
 	 */

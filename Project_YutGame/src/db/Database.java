@@ -6,10 +6,11 @@ import java.util.*;
 import javax.swing.*;
 
 public class Database {
+	DefaultListModel<String> userlistdata = new DefaultListModel<String>();
 	
 //	User List를 보여주기 위한 함수
 	public DefaultListModel loginUserShow() {
-		DefaultListModel<String> userlistdata = new DefaultListModel<String>();
+		userlistdata.removeAllElements();
 		Connection conn;
 		Statement stmt = null;
 		try {
@@ -22,10 +23,12 @@ public class Database {
 			conn = DriverManager.getConnection(url, user, pw);
 			stmt = conn.createStatement();
 //			user 테이블에 있는 모든 값을 선택
-			ResultSet srs = stmt.executeQuery("select * from user where LoginStatus = 1");
+			ResultSet srs = stmt.executeQuery("select * from user");
 			
 			while (srs.next()) {
-				userlistdata.addElement(srs.getString("Id"));
+				if (srs.getBoolean("LoginStatus")) {
+					userlistdata.addElement(srs.getString("Id"));
+				}
 			}
 			
 		} catch (ClassNotFoundException e) {
@@ -35,7 +38,6 @@ public class Database {
 		}
 		
 		return userlistdata;
-		
 	}
 
 //	user_game, game table data 생성 및 삭제
