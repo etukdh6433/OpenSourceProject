@@ -72,7 +72,7 @@ public class MainWindow extends JFrame {
 		selectPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel gamePanel = new JPanel();
-		gamePanel.setLayout(new GridLayout(1, 0, 0, 0));
+		gamePanel.setLayout(new BorderLayout(0, 0));
 		
 		JPanel chatPanel = new JPanel();
 		chatPanel.setLayout(new BorderLayout(0, 0));
@@ -177,29 +177,24 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
-//		JButton btnRandom = new JButton("Random Room");
-//		selectPanel.add(btnRandom);
-//		btnRandom.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//			}
-//		});
-		
 		
 		/**
 		 * User panel
 		 */
 		
 		JList<String> userList = new JList<String>(data.loginUserShow());
-		gamePanel.add(userList);
-		userList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		userList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				data.loginUserShow();
-			}
-		});
+		gamePanel.add(userList, BorderLayout.CENTER);
 		
 		JScrollPane userscroll = new JScrollPane(userList);
 		gamePanel.add(userscroll);
+		
+		JButton btnCheck = new JButton("Check User");
+		gamePanel.add(btnCheck, BorderLayout.NORTH);
+		btnCheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				data.loginUserShow();
+			}
+		});
 		
 		
 		/**
